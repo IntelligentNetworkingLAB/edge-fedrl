@@ -1,0 +1,39 @@
+{
+  "description": "Edge nodes run independent SAC agents on the same control task with different actuator strengths. Midway, one node's actuator degrades (domain drift). Methods differ in what the nodes share and how replay is prioritized.",
+  "env_id": "Hopper-v5",
+  "nodes": [
+    {"name": "EDGE-01", "actuator_scale": 0.70},
+    {"name": "EDGE-02", "actuator_scale": 0.85},
+    {"name": "EDGE-03", "actuator_scale": 1.00},
+    {"name": "EDGE-04", "actuator_scale": 1.15}
+  ],
+  "drift": {"node": "EDGE-03", "scale_after": 0.65},
+  "methods": ["local_per", "fedavg", "proto_per", "private_proto_per"],
+  "baseline": "local_per",
+  "noise_sigma": 0.1,
+  "seeds": [0],
+  "presets": {
+    "quick": {
+      "total_steps": 6000,
+      "change_step": 3000,
+      "warmup_steps": 1000,
+      "eval_interval": 1000,
+      "eval_episodes": 3,
+      "share_interval": 1000,
+      "buffer_size": 20000,
+      "adapt_window": 3000,
+      "fail_count_window": 2000
+    },
+    "full": {
+      "total_steps": 300000,
+      "change_step": 150000,
+      "warmup_steps": 10000,
+      "eval_interval": 10000,
+      "eval_episodes": 10,
+      "share_interval": 20000,
+      "buffer_size": 300000,
+      "adapt_window": 50000,
+      "fail_count_window": 20000
+    }
+  }
+}
